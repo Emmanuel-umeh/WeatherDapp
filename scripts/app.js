@@ -52,8 +52,8 @@ payable contract Weather =
 `;
 
 const contractAddress = "ct_zzNNFWpX2Vs9jN9LnLwawuJyyREjaLiPARABswxYEz8frbpX4";
-client = null;
-UserArray = [];
+var client = null;
+
 
 
 
@@ -140,7 +140,7 @@ const updateCity = async (city) => {
 };
 
 cityForm.addEventListener('submit',async e => {
-  client = Ae.Aepp();
+  client = await Ae.Aepp()
   // prevent default action
   e.preventDefault();
 
