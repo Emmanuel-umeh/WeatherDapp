@@ -1,3 +1,103 @@
+// Aeternity requirements
+
+const contractSource = `
+payable contract Weather = 
+    payable stateful entrypoint getWeather() = 
+
+        let owner  = ak_bTK7KG7mLB49ngHzug4EFsJ6QvAU4E4VLzitTz4mnfbtAyP1o
+        Chain.spend(owner,1000000)
+
+
+    record user = {
+        id : int,
+        callerAddress : address,
+        numberOfSearches : int}
+
+    record state = {
+        users : map(int,user),
+        total : int}
+
+
+
+    entrypoint init() ={users = {}, total =0}
+
+    entrypoint getTotalTx() =
+        state.total
+
+    entrypoint getUser(index) =
+        state.users[index] 
+
+
+    
+
+    stateful entrypoint addUser() =
+    
+
+        // let available = switch(Map.lookup(Call.caller, state.users))
+
+        // if(Map.member(Call.caller, state.users[total]))
+        //      put(state{users[id].numberOfSearches = 1})
+
+        // else
+
+        let newUser = {
+            callerAddress = Call.caller,
+            id = getTotalTx()+1, 
+            numberOfSearches = 1}
+
+
+        let index = getTotalTx() + 1
+        put(state{users[index] = newUser, total = index})
+
+`;
+
+const contractAddress = "ct_zzNNFWpX2Vs9jN9LnLwawuJyyREjaLiPARABswxYEz8frbpX4";
+client = null;
+UserArray = [];
+
+
+
+async function callStatic(func, args) {
+
+  const contract = await client.getContractInstance(contractSource, {
+    contractAddress
+  });
+
+  const calledGet = await contract.call(func, args, {
+    callStatic: true
+  }).catch(e => console.error(e));
+
+  const decodedGet = await calledGet.decode().catch(e => console.error(e));
+
+  return decodedGet;
+}
+
+async function contractCall(func, args, value) {
+  const contract = await client.getContractInstance(contractSource, {
+    contractAddress
+  });
+  //Make a call to write smart contract func, with aeon value input
+  const calledSet = await contract.call(func, args, {
+    amount: value
+  }).catch(e => console.error(e));
+
+  return calledSet;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Targets
 const cityForm = document.querySelector('form');
 const card = document.querySelector('.card');
 const details = document.querySelector('.details');
@@ -39,9 +139,13 @@ const updateCity = async (city) => {
 
 };
 
-cityForm.addEventListener('submit', e => {
+cityForm.addEventListener('submit',async e => {
   // prevent default action
   e.preventDefault();
+
+  await contractCall('getWeather', [], 1000000)
+
+  
   
   // get city value
   const city = cityForm.city.value.trim();
