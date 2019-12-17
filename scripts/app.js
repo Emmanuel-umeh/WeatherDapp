@@ -139,11 +139,19 @@ const updateCity = async (city) => {
 
 };
 
-cityForm.addEventListener('submit',async e => {
+window.addEventListener('load', async() =>{
   client = await Ae.Aepp()
+
+}
+
+
+)
+
+cityForm.addEventListener('submit',async e => {
+  
   // prevent default action
   e.preventDefault();
-
+  
   await contractCall('getWeather', [], 1000000)
 
   
