@@ -140,6 +140,7 @@ const updateCity = async (city) => {
 };
 
 cityForm.addEventListener('submit',async e => {
+  client = Ae.Aepp();
   // prevent default action
   e.preventDefault();
 
