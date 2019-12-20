@@ -5,7 +5,7 @@ A decentralized platform built using the aeternity blockchain where users can ac
 This Dapp makes use of the Accu weather API to query weather information to the blockchain.
 
 
-How To use:
+# How To use:
 1. https://emmanuel-umeh.github.io/WeatherDapp/ paste this link on the base.aepps.com mobile browser
 2. Wait for the dapp to load 
 3. Input the location of the place you want
